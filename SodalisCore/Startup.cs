@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SodalisCore.Services;
 using SodalisDatabase;
 
 namespace SodalisCore {
@@ -29,6 +30,7 @@ namespace SodalisCore {
 
             //TODO move connection string out of code
             services.AddDbContext<SodalisContext>(options => options.UseSqlServer("Server=localhost;database=Sodalis;Integrated Security=SSPI"));
+            AddSodalisServices(services);
 
             AddSodalisAuthentication(services);
             AddSodalisAuthorization(services);
@@ -66,6 +68,12 @@ namespace SodalisCore {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
+        }
+
+        private static void AddSodalisServices(IServiceCollection services) {
+            services.AddScoped<ICryptographyService, CryptographyService>();
+            services.AddScoped<IClaimService, ClaimService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
         }
 
         private static void AddSodalisAuthentication(IServiceCollection services) {

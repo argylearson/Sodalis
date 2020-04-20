@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SodalisCore.DataTransferObjects;
 using SodalisCore.Services;
-using SodalisExceptions;
 
 namespace SodalisCore.Controllers
 {

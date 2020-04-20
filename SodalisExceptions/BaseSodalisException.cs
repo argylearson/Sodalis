@@ -4,12 +4,12 @@ using System.Net;
 namespace SodalisExceptions {
     public abstract class BaseSodalisException : Exception {
 
-        protected BaseSodalisException(string message, Exception innerException) : base(message, innerException) {
+        protected BaseSodalisException(string message, Exception innerException = null) : base(message, innerException) {
 
         }
 
-        public abstract HttpStatusCode HttpStatusCode { get; }
+        public abstract HttpStatusCode HttpStatusCode { get; set; }
         public int HttpCode => (int) HttpStatusCode;
-        public abstract string ClientMessage { get; }
+        public abstract ErrorMessage ClientMessage { get; set; }
     }
 }
