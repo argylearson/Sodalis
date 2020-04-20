@@ -46,5 +46,28 @@ namespace SodalisCore.Controllers
 
             return true;
         }
+
+        protected static bool ParsePagingParameters(int? pageNumber, int? pageSize,
+            out int outPageNumber, out int outPageSize, int maxPageSize = 25) {
+            if (!pageNumber.HasValue && !pageSize.HasValue) {
+                outPageNumber = 0;
+                outPageSize = 0;
+                return false;
+            }
+            outPageNumber = pageNumber ?? 1;
+            if (pageNumber < 1)
+                throw new BadRequestException("Page number was invalid") {
+                    ClientMessage =
+                        new ErrorMessage("The provided page number was invalid. Please correct it and try again.")
+                };
+            outPageSize = pageSize ?? 25;
+            if (pageSize < 1 || pageSize > maxPageSize)
+                throw new BadRequestException("Page size was invalid") {
+                    ClientMessage =
+                        new ErrorMessage("The provided page size was invalid. Please correct it and try again.")
+                };
+
+            return true;
+        }
     }
 }

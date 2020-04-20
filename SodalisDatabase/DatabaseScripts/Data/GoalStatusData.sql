@@ -12,6 +12,7 @@ CREATE TABLE #goalStatusUpsert (
 
 INSERT INTO #goalStatusUpsert
 VALUES
+	(0, N'Not Provided', N'If you''re seeing this, validation when wrong somewhere.'),
 	(1, N'New', N'This goal was newly created and no progress has been made towards completing it.'),
 	(2, N'In Progress', N'Steps have been taken towards completing this goal.'),
 	(3, N'Completed', N'This goal was successfully completed.'),

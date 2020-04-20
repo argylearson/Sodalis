@@ -12,6 +12,10 @@ namespace SodalisCore.Services {
             _friendRepository = friendRepository;
         }
 
+        Task<Friendship> IFriendService.GetFriendRequest(int userId, int friendId) {
+            return _friendRepository.GetFriendRequest(userId, friendId);
+        }
+
         Task<Friendship[]> IFriendService.GetFriendsRequests(int userId, int pageNumber, int pageSize) {
             return _friendRepository.GetFriendsRequests(userId, pageNumber, pageSize);
         }

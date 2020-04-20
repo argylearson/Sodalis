@@ -33,6 +33,8 @@ namespace SodalisCore {
             services.AddDbContext<SodalisContext>(options => options.UseSqlServer("Server=localhost;database=Sodalis;Integrated Security=SSPI"));
             AddSodalisServices(services);
 
+            AddSodalisSingletons(services);
+
             AddSodalisAuthentication(services);
             AddSodalisAuthorization(services);
 
@@ -76,8 +78,13 @@ namespace SodalisCore {
             services.AddScoped<IClaimService, ClaimService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IGoalService, GoalService>();
+            services.AddScoped<IGoalRepository, GoalRepository>();
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<IFriendRepository, FriendRepository>();
+        }
+
+        private static void AddSodalisSingletons(IServiceCollection services) {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         private static void AddSodalisAuthentication(IServiceCollection services) {

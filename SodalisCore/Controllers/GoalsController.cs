@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SodalisCore.Services;
 using SodalisDatabase.Entities;
+using SodalisExceptions;
+using SodalisExceptions.Exceptions;
 
 namespace SodalisCore.Controllers
 {
@@ -30,10 +32,14 @@ namespace SodalisCore.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetGoalsForLoggedInUser() {
+        public async Task<IActionResult> GetGoalsForLoggedInUser([FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
             async Task<IActionResult> Action() {
                 var userId = int.Parse(HttpContext.User.Identity.Name);
-                var goals = await _goalService.GetGoalsByUserId(userId);
+                Goal[] goals;
+                if (ParsePagingParameters(pageNumber, pageSize, out var pNumber, out var pSize))
+                    goals = await _goalService.GetGoalsByUserId(userId, pNumber, pSize);
+                else
+                    goals = await _goalService.GetGoalsByUserId(userId);
                 return new ObjectResult(goals) {StatusCode = 200};
             }
 
@@ -43,9 +49,13 @@ namespace SodalisCore.Controllers
 
         [HttpGet]
         [Route("user/{id}")]
-        public async Task<IActionResult> GetGoalsForUser(int id) {
+        public async Task<IActionResult> GetGoalsForUser(int id, [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
             async Task<IActionResult> Action() {
-                var goals = await _goalService.GetGoalsByUserId(id);
+                Goal[] goals;
+                if (ParsePagingParameters(pageNumber, pageSize, out var pNumber, out var pSize))
+                    goals = await _goalService.GetGoalsByUserId(id, pNumber, pSize);
+                else
+                    goals = await _goalService.GetGoalsByUserId(id);
                 return new ObjectResult(goals) { StatusCode = 200 };
             }
 
@@ -56,6 +66,15 @@ namespace SodalisCore.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateGoal([FromBody] Goal goal) {
             async Task<IActionResult> Action() {
+                if (goal.UserId != 0 && goal.UserId != int.Parse(HttpContext.User.Identity.Name))
+                    throw new BadRequestException("User id's did not match") {
+                        ClientMessage = new ErrorMessage("User id in request much be empty, zero, or your id.")
+                    };
+                if (goal.Id != 0) {
+                    throw new BadRequestException("User provided an id when creating a goal") {
+                        ClientMessage = new ErrorMessage("Do not provide a goal id when creating a goal")
+                    };
+                }
                 var goals = await _goalService.CreateGoal(goal);
                 return new ObjectResult(goals) { StatusCode = 201 };
             }
@@ -68,7 +87,15 @@ namespace SodalisCore.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateGoal(int id, [FromBody] Goal goal) {
             async Task<IActionResult> Action() {
-                var updatedGoal = await _goalService.UpdateGoal(id, goal);
+                if (goal.Id != 0 && goal.Id != id)
+                    throw new BadRequestException("Goal id's did not match") {
+                        ClientMessage = new ErrorMessage("Goal id in request much be empty, zero, or match the id in the uri.")
+                    };
+                if (goal.UserId != 0 && goal.UserId != int.Parse(HttpContext.User.Identity.Name))
+                    throw new BadRequestException("User id's did not match") {
+                        ClientMessage = new ErrorMessage("User id in request much be empty, zero, or your id.")
+                    };
+                var updatedGoal = await _goalService.UpdateGoal(goal);
                 return new ObjectResult(updatedGoal) { StatusCode = 200 };
             }
 

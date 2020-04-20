@@ -17,12 +17,13 @@ namespace SodalisCore.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetGoalsForLoggedInUser([FromQuery] string pageNumber, [FromQuery] string pageSize) {
+        public async Task<IActionResult> GetGoalsForLoggedInUser([FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
             async Task<IActionResult> Action() {
                 var userId = int.Parse(HttpContext.User.Identity.Name);
                 Friendship[] friendships;
-                if (ParsePagingParameters(pageNumber, pageSize, out var pNumber, out var pSize))
+                if (ParsePagingParameters(pageNumber, pageSize, out var pNumber, out var pSize)) {
                     friendships = await _friendService.GetFriendsRequests(userId, pNumber, pSize);
+                }
                 else
                     friendships = await _friendService.GetFriendsRequests(userId);
                 return new ObjectResult(friendships) { StatusCode = 200 };
