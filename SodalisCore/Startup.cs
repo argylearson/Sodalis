@@ -74,6 +74,8 @@ namespace SodalisCore {
             services.AddScoped<ICryptographyService, CryptographyService>();
             services.AddScoped<IClaimService, ClaimService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IGoalService, GoalService>();
+            services.AddScoped<IFriendService, FriendService>();
         }
 
         private static void AddSodalisAuthentication(IServiceCollection services) {

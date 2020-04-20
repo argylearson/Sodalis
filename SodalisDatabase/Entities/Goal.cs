@@ -7,7 +7,6 @@ namespace SodalisDatabase.Entities {
     public class Goal {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
         public int UserId { get; set; }
         [StringLength(128)]
         public string Title { get; set; }
@@ -15,7 +14,6 @@ namespace SodalisDatabase.Entities {
         public string Description { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedDate { get; set; }
-        [Required]
         public GoalStatus Status { get; set; }
         public bool IsPublic { get; set; }
     }

@@ -7,6 +7,7 @@ namespace SodalisDatabase {
 
         internal DbSet<User> Users { get; set; }
         internal DbSet<Goal> Goals { get; set; }
+        internal DbSet<Friendship> Friendships { get ; set; }
 
         protected override void OnModelCreating(ModelBuilder builder) {
             //user table
@@ -21,6 +22,11 @@ namespace SodalisDatabase {
             builder.Entity<Goal>().Property(g => g.IsPublic).HasDefaultValue(false);
             builder.Entity<Goal>().Property(g => g.Status).HasConversion(
                 status => (int) status, status => (GoalStatus) status);
+
+            //friendship table
+            builder.Entity<Friendship>().HasKey(f => new { f.SenderId, f.ReceiverId });
+            builder.Entity<Friendship>().HasIndex(f => new { f.ReceiverId, f.SenderId });
+            builder.Entity<Friendship>().Property(f => f.Accepted).HasDefaultValue(false);
         }
     }
 }
