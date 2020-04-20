@@ -9,11 +9,11 @@ using SodalisExceptions.Exceptions;
 
 namespace SodalisCore.Repositories {
     public class AuthenticationRepository : IAuthenticationRepository{
-        private readonly SodalisContext _dbSodalisContext;
+        private readonly SodalisContext _sodalisContext;
         private readonly ICryptographyService _cryptographyService;
 
-        internal AuthenticationRepository(SodalisContext dbSodalisContext, ICryptographyService cryptographyService) {
-            _dbSodalisContext = dbSodalisContext;
+        internal AuthenticationRepository(SodalisContext sodalisContext, ICryptographyService cryptographyService) {
+            _sodalisContext = sodalisContext;
             _cryptographyService = cryptographyService;
         }
 
@@ -27,7 +27,7 @@ namespace SodalisCore.Repositories {
                 PasswordHash = hash,
                 PasswordSalt = salt
             };
-            dbEntry = await _dbSodalisContext.CreateUser(dbEntry);
+            dbEntry = await _sodalisContext.CreateUser(dbEntry);
 
             user = new UserDto {
                 Id = dbEntry.Id,
@@ -41,7 +41,7 @@ namespace SodalisCore.Repositories {
 
         async Task<UserDto> IAuthenticationRepository.Login(LoginDto credentials) {
             try {
-                var user = await _dbSodalisContext.GetUserByEmailAddress(credentials.EmailAddress);
+                var user = await _sodalisContext.GetUserByEmailAddress(credentials.EmailAddress);
 
                 if (user == null)
                     throw new UnauthenticatedException($"No user found for ${credentials.EmailAddress}");

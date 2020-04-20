@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SodalisCore.Repositories;
 using SodalisCore.Services;
 using SodalisDatabase;
 
@@ -76,6 +77,7 @@ namespace SodalisCore {
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IGoalService, GoalService>();
             services.AddScoped<IFriendService, FriendService>();
+            services.AddScoped<IFriendRepository, FriendRepository>();
         }
 
         private static void AddSodalisAuthentication(IServiceCollection services) {
