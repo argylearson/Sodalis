@@ -1,0 +1,21 @@
+/* TEAM */
+Developer: Richard Lemke
+Site: rlemke@iu.edu
+
+/* THANKS */
+The Noun Project: https://thenounproject.com/
+
+Email by Ilham Fitrotul Hayat from the Noun Project
+password by Gregor Cresnar from the Noun Project
+
+/* SITE */
+Last update: 2020/04/21
+
+Standards: HTML5, CSS3, ECMA6
+
+Components:
+
+Software:   Visual Studio
+            WebStorm
+            Chrome
+            Postman

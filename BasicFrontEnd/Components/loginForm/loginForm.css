@@ -1,0 +1,38 @@
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 30px;
+
+    position: absolute;
+    top: calc(50% - 61px);
+    left: calc(50% - 125px);
+    width: 250px;
+    height: 122px;
+    box-sizing: border-box;
+
+    border: 3px solid gray;
+    text-align: center;
+    border-radius: 18px;
+    color: darkblue;
+    background-color: lightgray;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
+.login-form input {
+    
+}
+
+.email-box {
+    display: flex;
+    text-align: center;
+    background: lightgreen;
+}
+
+.password-box {
+    display: flex;
+    text-alight: center;
+    background: lightblue;
+}
