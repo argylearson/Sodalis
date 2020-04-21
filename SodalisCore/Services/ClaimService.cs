@@ -16,7 +16,7 @@ namespace SodalisCore.Services {
             var tokenDescriptor = new SecurityTokenDescriptor {
                 Subject = new ClaimsIdentity(CreateClaim(user)),
                 Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_key), SecurityAlgorithms.HmacSha512Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_key), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

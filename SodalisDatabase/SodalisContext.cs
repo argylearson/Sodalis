@@ -5,6 +5,8 @@ using SodalisDatabase.Enums;
 namespace SodalisDatabase {
     public class SodalisContext : DbContext {
 
+        public SodalisContext(DbContextOptions<SodalisContext> options) : base(options) { }
+
         internal DbSet<User> Users { get; set; }
         internal DbSet<Goal> Goals { get; set; }
         internal DbSet<Friendship> Friendships { get ; set; }

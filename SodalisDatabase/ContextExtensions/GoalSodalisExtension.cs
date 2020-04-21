@@ -7,7 +7,7 @@ using SodalisDatabase.Enums;
 
 namespace SodalisDatabase.ContextExtensions {
     public static class GoalSodalisExtension {
-        private static readonly string GetGoalsByUserIdSproc = "[dbo].[GetGoalsByUserId] @userId, @pageNumber, @pageSize";
+        private static readonly string GetGoalsByUserIdSproc = "[dbo].[GetGoalsByUserId] @userId, @includePrivate, @pageNumber, @pageSize";
 
         public static Task<Goal> GetGoalById(this SodalisContext context, int id) {
             return context.Goals.FindAsync(id).AsTask();

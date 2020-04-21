@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Mime;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SodalisCore.Services;
@@ -64,6 +65,7 @@ namespace SodalisCore.Controllers
         }
 
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> CreateGoal([FromBody] Goal goal) {
             async Task<IActionResult> Action() {
                 if (goal.UserId != 0 && goal.UserId != int.Parse(HttpContext.User.Identity.Name))
@@ -85,16 +87,22 @@ namespace SodalisCore.Controllers
 
         [HttpPatch]
         [Route("{id}")]
+        [Consumes(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> UpdateGoal(int id, [FromBody] Goal goal) {
             async Task<IActionResult> Action() {
                 if (goal.Id != 0 && goal.Id != id)
                     throw new BadRequestException("Goal id's did not match") {
                         ClientMessage = new ErrorMessage("Goal id in request much be empty, zero, or match the id in the uri.")
                     };
-                if (goal.UserId != 0 && goal.UserId != int.Parse(HttpContext.User.Identity.Name))
+                goal.Id = id;
+
+                var userId = int.Parse(HttpContext.User.Identity.Name);
+                if (goal.UserId != 0 && goal.UserId != userId)
                     throw new BadRequestException("User id's did not match") {
                         ClientMessage = new ErrorMessage("User id in request much be empty, zero, or your id.")
                     };
+                goal.UserId = userId;
+
                 var updatedGoal = await _goalService.UpdateGoal(goal);
                 return new ObjectResult(updatedGoal) { StatusCode = 200 };
             }

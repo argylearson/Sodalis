@@ -1,4 +1,5 @@
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,15 +26,15 @@ namespace SodalisCore {
         public void ConfigureServices(IServiceCollection services) {
             services.AddControllers();
 
-            services.AddLogging();
-
-            services.AddCors();
-
             //TODO move connection string out of code
             services.AddDbContext<SodalisContext>(options => options.UseSqlServer("Server=localhost;database=Sodalis;Integrated Security=SSPI"));
             AddSodalisServices(services);
 
             AddSodalisSingletons(services);
+
+            services.AddLogging();
+
+            services.AddCors();
 
             AddSodalisAuthentication(services);
             AddSodalisAuthorization(services);
@@ -77,6 +78,7 @@ namespace SodalisCore {
             services.AddScoped<ICryptographyService, CryptographyService>();
             services.AddScoped<IClaimService, ClaimService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
             services.AddScoped<IGoalService, GoalService>();
             services.AddScoped<IGoalRepository, GoalRepository>();
             services.AddScoped<IFriendService, FriendService>();
@@ -89,7 +91,7 @@ namespace SodalisCore {
 
         private static void AddSodalisAuthentication(IServiceCollection services) {
             //TODO make token string a secret
-            var key = Encoding.ASCII.GetBytes("temporary token string");
+            var key = Encoding.ASCII.GetBytes("this key shouldn't be in the codebase");
 
             services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -108,12 +110,14 @@ namespace SodalisCore {
         }
 
         private static void AddSodalisAuthorization(IServiceCollection services) {
-
+            services.AddAuthorization();
         }
 
         private static JwtBearerEvents SetupBearerEvents() {
             return new JwtBearerEvents {
-
+                OnTokenValidated = context => {
+                    return Task.CompletedTask;
+                }
             };
         }
     }

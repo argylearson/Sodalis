@@ -25,6 +25,11 @@ namespace SodalisCore.Services {
                 throw new BadRequestException("An invalid friend id was provided") {
                     ClientMessage = new ErrorMessage("Friend id must be positive. Please provide a valid Id and try again.")
                 };
+            if (userId == friendId)
+                throw new BadRequestException("Friend id cannot match user id") {
+                    ClientMessage = new ErrorMessage("You cannot send a friend request to yourself.")
+                };
+
 
             return _friendRepository.SendFriendRequest(userId, friendId);
         }

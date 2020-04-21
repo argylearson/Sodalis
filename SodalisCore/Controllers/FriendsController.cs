@@ -17,7 +17,7 @@ namespace SodalisCore.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetGoalsForLoggedInUser([FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
+        public async Task<IActionResult> GetFriendsForLoggedInUser([FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
             async Task<IActionResult> Action() {
                 var userId = int.Parse(HttpContext.User.Identity.Name);
                 Friendship[] friendships;

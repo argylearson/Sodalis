@@ -10,6 +10,6 @@ namespace SodalisCore.DataTransferObjects {
         [StringLength(128)]
         public string LastName { get; set; }
         [StringLength(128)]
-        public string Password;
+        public string Password { get; set; }
     }
 }

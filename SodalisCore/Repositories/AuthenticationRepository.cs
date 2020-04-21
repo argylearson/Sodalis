@@ -12,7 +12,7 @@ namespace SodalisCore.Repositories {
         private readonly SodalisContext _sodalisContext;
         private readonly ICryptographyService _cryptographyService;
 
-        internal AuthenticationRepository(SodalisContext sodalisContext, ICryptographyService cryptographyService) {
+        public AuthenticationRepository(SodalisContext sodalisContext, ICryptographyService cryptographyService) {
             _sodalisContext = sodalisContext;
             _cryptographyService = cryptographyService;
         }

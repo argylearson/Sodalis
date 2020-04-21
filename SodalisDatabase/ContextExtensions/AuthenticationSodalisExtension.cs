@@ -12,7 +12,7 @@ namespace SodalisDatabase.ContextExtensions {
         }
 
         public static Task<User> GetUserByEmailAddress(this SodalisContext context, string emailAddress) {
-            return context.Users.SingleOrDefaultAsync(u => string.Equals(u.EmailAddress, emailAddress, StringComparison.OrdinalIgnoreCase));
+            return context.Users.SingleOrDefaultAsync(u => u.EmailAddress == emailAddress);
         }
     }
 }
