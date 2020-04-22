@@ -32,7 +32,7 @@ namespace SodalisDatabase.ContextExtensions {
 
         public static async Task<Goal> UpdateGoal(this SodalisContext context, Goal goal) {
             var originalGoal = await context.Goals.FindAsync(goal.Id);
-            originalGoal.Status = goal.Status == GoalStatus.NotProvided ? originalGoal.Status : goal.Status;
+            originalGoal.Status = goal.Status == GoalStatus.Not_Provided ? originalGoal.Status : goal.Status;
             originalGoal.Title = string.IsNullOrEmpty(goal.Title) ? originalGoal.Title : goal.Title;
             originalGoal.Description = string.IsNullOrEmpty(goal.Description) ? originalGoal.Description : goal.Description;
             originalGoal.IsPublic = goal.IsPublic;

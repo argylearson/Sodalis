@@ -61,7 +61,7 @@ namespace SodalisCore.Services {
 
         Task<Goal> IGoalService.CreateGoal(Goal goal) {
             goal.UserId = int.Parse(_httpContext.HttpContext.User.Identity.Name);
-            if (goal.Status == GoalStatus.NotProvided)
+            if (goal.Status == GoalStatus.Not_Provided)
                 goal.Status = GoalStatus.New;
             if (string.IsNullOrWhiteSpace(goal.Title))
                 throw new BadRequestException("Goal does not have a title.") {

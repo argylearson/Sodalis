@@ -1,0 +1,89 @@
+.goal-form {
+    display: flex;
+    flex-direction: column;
+    flex: 30px;
+    align-items: center;
+
+    position: absolute;
+    top: calc(50% - 250px);
+    left: calc(50% - 200px);
+    width: 400px;
+    height: 500px;
+    box-sizing: border-box;
+
+    border: 3px solid gray;
+    text-align: center;
+    border-radius: 18px;
+    background-color: lightgray;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
+.goal-form input, .goal-form textarea {
+    box-sizing: border-box;
+    margin-top: 3px;
+    padding: 5px;
+    border: none;
+    border-radius: 6px;
+    height: 24px;
+    width: 350px;
+}
+
+.goal-form #description {
+    display: inline-flex;
+    height: 350px;
+    resize: none;
+}
+
+.goal-form .public-box, .goal-form .status-box {
+    display: inline-flex;
+    margin-right: 10px;
+}
+
+.goal-form .public-box {
+    height: 19px;
+}
+
+.goal-form label {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.goal-form #isPublic {
+    position: relative;
+    top: -5px;
+    width: 19px;
+}
+
+.goal-form #bottom-row {
+    position: relative;
+    top: 350px;
+    left: -80px;
+    display: inline-flex;
+    float: bottom;
+    width: 200px;
+    align-items: center;
+}
+
+.title-box, .description-box {
+    display: flex;
+    text-align: center;
+    background: lightgrey;
+
+    height: 30px;
+    border-radius: 6px;
+}
+
+.goal-button-box {
+    display: flex;
+}
+
+.goal-button-box button {
+    background: darkblue;
+    color: lightgray;
+    text-decoration: none;
+    padding: 5px;
+    border: none;
+    border-radius: 6px;
+    width: 100px;
+}
