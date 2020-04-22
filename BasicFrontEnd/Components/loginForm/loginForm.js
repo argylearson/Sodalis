@@ -10,6 +10,7 @@ class LoginForm extends HTMLFormElement {
         css.href = "Components/loginForm/loginForm.css";
         document.head.appendChild(css);
 
+        this.action = "index.html";
         this.onsubmit = (event) => {
             event.preventDefault();
             this.loginFetch();
@@ -28,25 +29,6 @@ class LoginForm extends HTMLFormElement {
                     "<button id='login-button' type='submit'><b>Login</b></button>" +
                 "</div>" +
             "</div>";
-    }
-
-    doLogin() {
-        let responsePromise = this.loginFetch();
-        responsePromise.then((response) => {
-            if (response.ok) {
-                response.json().then(body => {
-                    window.localStorage.setItem('sodalisToken', body.token);
-                    let url = window.location.href.substring(0, -6);
-                    window.location.href = url;
-                });
-            } else {
-                if (document.getElementsByClassName('bad-login-alert').length === 0) {
-                    let alertElement = document.createElement('div');
-                    alertElement.className = 'bad-login-alert';
-                    alertElement.innerHTML = "Invalid credentials. Please try again.";
-                }
-            }
-        });
     }
 
     loginFetch() {
@@ -68,9 +50,23 @@ class LoginForm extends HTMLFormElement {
             },
             referrerPolicy: 'no-referrer',
             body: JSON.stringify(payload)
-        }).then((response) => response.json())
-            .then((data) => console.log('success: ', data))
-            .catch((error) => console.log('error: ', error));
+        }).then((response) => {
+            if (response.ok) {
+                response.json()
+                    .then((data) => {
+                        window.localStorage.setItem('sodalisToken', data.token);
+                        let url = window.location.href;
+                        window.location.href = url.substring(0, url.lastIndexOf('/')) + "/index.html";
+                    })
+                    .catch((error) => console.log('error: ', error));
+            } else {
+                if (document.getElementsByClassName('bad-login-alert').length === 0) {
+                    let alertElement = document.createElement('div');
+                    alertElement.className = 'bad-login-alert';
+                    alertElement.innerHTML = "Invalid credentials. Please try again.";
+                }
+            }
+        })
     }
 }
 
