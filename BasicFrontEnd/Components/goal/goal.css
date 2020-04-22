@@ -1,5 +1,9 @@
 .sodalis-goal {
+    min-width: 200px;
     width: 200px;
+    background: linear-gradient(whitesmoke, floralwhite);
+    border-radius: 8px;
+    padding: 4px;
 }
 
 .sodalis-goal p {

@@ -86,13 +86,17 @@ class Goal extends HTMLDivElement {
             "<p>" + jsonObject.description + "</p>";
         goal.updateForStatus(jsonObject.status);
     }
+
+    static initialize() {
+        let css = document.createElement("link");
+        css.rel = "stylesheet";
+        css.type = "text/css";
+        css.href = "Components/goal/goal.css";
+        document.head.appendChild(css);
+    }
 }
 
-let css = document.createElement("link");
-css.rel = "stylesheet";
-css.type = "text/css";
-css.href = "Components/goal/goal.css";
-document.head.appendChild(css);
 
+Goal.initialize();
 console.log("Goals added")
 customElements.define("sodalis-goal", Goal, {extends: "div"});

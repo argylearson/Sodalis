@@ -1,0 +1,13 @@
+.sodalis-goal-container {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    flex-flow: column wrap;
+    max-height: 95%;
+    width: fit-content;
+}
+
+.sodalis-goal-container .sodalis-goal {
+    margin: 5px;
+    height: fit-content;
+}

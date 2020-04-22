@@ -4,12 +4,6 @@ class LoginForm extends HTMLFormElement {
     }
 
     connectedCallback() {
-        let css = document.createElement("link");
-        css.rel = "stylesheet";
-        css.type = "text/css";
-        css.href = "Components/loginForm/loginForm.css";
-        document.head.appendChild(css);
-
         this.action = "index.html";
         this.onsubmit = (event) => {
             event.preventDefault();
@@ -68,7 +62,15 @@ class LoginForm extends HTMLFormElement {
             }
         })
     }
+    static initialize() {
+        let css = document.createElement("link");
+        css.rel = "stylesheet";
+        css.type = "text/css";
+        css.href = "Components/loginForm/loginForm.css";
+        document.head.appendChild(css);
+    }
 }
 
+LoginForm.initialize();
 console.log("LoginForm added")
 customElements.define("login-form", LoginForm, {extends: "form"});
