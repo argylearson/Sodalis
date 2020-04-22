@@ -1,9 +1,13 @@
-﻿using System.Net.Mime;
+﻿using System;
+using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SodalisCore.DataTransferObjects;
 using SodalisCore.Services;
 using SodalisDatabase.Entities;
+using SodalisDatabase.Enums;
 using SodalisExceptions;
 using SodalisExceptions.Exceptions;
 
@@ -117,6 +121,22 @@ namespace SodalisCore.Controllers
             async Task<IActionResult> Action() {
                 await _goalService.DeleteGoal(id);
                 return new ObjectResult("") { StatusCode = 204 };
+            }
+
+            var result = await ResultToResponseAsync(Action);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("statuses")]
+        public async Task<IActionResult> GetStatuses() {
+            async Task<IActionResult> Action() {
+                var values = Enum.GetValues(typeof(GoalStatus)).Cast<int>()
+                    .Select(value => new EnumValueDto {
+                        Id = value,
+                        Name = ((GoalStatus) value).ToString().Replace('_', ' ')
+                    });
+                return new ObjectResult(values) { StatusCode = 200 };
             }
 
             var result = await ResultToResponseAsync(Action);
