@@ -7,7 +7,7 @@ class GoalForm extends HTMLFormElement {
         this.action = "index.html";
         this.onsubmit = (event) => {
             event.preventDefault();
-            this.loginFetch();
+            this.postGoalFetch();
         };
         this.innerHTML = "" +
             "<div class='goal-form' id='goal-form'>" +
@@ -34,22 +34,36 @@ class GoalForm extends HTMLFormElement {
         this.statusFetch();
     }
 
-    loginFetch() {
-        let url = "https://localhost:5001/api/authentication/login";
-        let emailNode = document.getElementById('emailAddress');
-        let passwordNode = document.getElementById('password');
+    postGoalFetch() {
+        let url = "https://localhost:5001/api/goals";
+        let method = 'POST';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlId = parseInt(urlParams.get('goalId'));
+        if (urlId) {
+            url += "/" + urlId;
+            method = 'PATCH';
+        }
+
+        let titleNode = document.getElementById('title');
+        let descriptionNode = document.getElementById('description');
+        let statusNode = document.getElementById('status');
+        let publicNode = document.getElementById('isPublic');
 
         let payload = {
-            'emailAddress':emailNode.value,
-            'password':passwordNode.value
+            'title': titleNode.value,
+            'description': descriptionNode.value,
+            'status': parseInt(statusNode.options[statusNode.selectedIndex].value),
+            'isPublic': publicNode.checked
         };
 
         fetch(url, {
-            method: 'POST',
+            method: method,
             mode: 'cors',
             cache: 'no-cache',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer ' + localStorage.getItem('sodalisToken')
             },
             referrerPolicy: 'no-referrer',
             body: JSON.stringify(payload)
@@ -57,17 +71,10 @@ class GoalForm extends HTMLFormElement {
             if (response.ok) {
                 response.json()
                     .then((data) => {
-                        window.localStorage.setItem('sodalisToken', data.token);
                         let url = window.location.href;
                         window.location.href = url.substring(0, url.lastIndexOf('/')) + "/index.html";
                     })
                     .catch((error) => console.log('error: ', error));
-            } else {
-                if (document.getElementsByClassName('bad-login-alert').length === 0) {
-                    let alertElement = document.createElement('div');
-                    alertElement.className = 'bad-login-alert';
-                    alertElement.innerHTML = "Invalid credentials. Please try again.";
-                }
             }
         })
     }
@@ -88,7 +95,7 @@ class GoalForm extends HTMLFormElement {
                     let statusSelector = document.getElementById('status');
                     statuses.forEach((statusValue) => {
                         statusSelector.innerHTML += "" +
-                            "<option value=''" + statusValue.id +"'>" + statusValue.name + "</option>";
+                            "<option value='" + statusValue.id +"'>" + statusValue.name + "</option>";
                     });
                 });
             }
