@@ -32,6 +32,7 @@ class GoalForm extends HTMLFormElement {
                 "</div>" +
             "</div>";
         this.statusFetch();
+        this.populateData();
     }
 
     postGoalFetch() {
@@ -103,6 +104,37 @@ class GoalForm extends HTMLFormElement {
                 console.error("Error loading goal statuses");
             }
         })
+    }
+
+    populateData() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlId = parseInt(urlParams.get('goalId'));
+        if (urlId) {
+            const url = "https://localhost:5001/api/goals/" + urlId;
+            const token = localStorage.getItem('sodalisToken');
+            fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                cache: 'no-cache',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            }).then((response) => {
+                if (response.ok) {
+                    response.json().then((goal) => {
+                        let titleNode = document.getElementById('title');
+                        let descriptionNode = document.getElementById('description');
+                        let statusNode = document.getElementById('status');
+                        let publicNode = document.getElementById('isPublic');
+
+                        titleNode.value = goal.title;
+                        descriptionNode.value = goal.description;
+                        statusNode.selectedIndex = parseInt(goal.status);
+                        publicNode.checked = goal.isPublic;
+                    });
+                }
+            })
+        }
     }
 
     static initialize() {
