@@ -85,6 +85,11 @@ class Goal extends HTMLDivElement {
             "<p><b>" + jsonObject.title + "</b></p>" +
             "<p>" + jsonObject.description + "</p>";
         goal.updateForStatus(jsonObject.status);
+        goal.goalId = jsonObject.id;
+
+        goal.addEventListener('mouseup', e => {
+            window.location.replace('upsertGoal.html?goalId=' + goal.goalId);
+        });
     }
 
     static initialize() {
