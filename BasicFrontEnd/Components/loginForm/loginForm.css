@@ -15,24 +15,62 @@
     border: 3px solid gray;
     text-align: center;
     border-radius: 18px;
-    color: darkblue;
     background-color: lightgray;
     padding-top: 10px;
     padding-bottom: 30px;
 }
 
 .login-form input {
-    
+    box-sizing: border-box;
+    margin-top: 3px;
+    padding: 5px;
+    border: none;
+    border-radius: 6px 12px 12px 6px;
+    height: 24px;
+}
+
+.login-form label {
+    width: 30px;
 }
 
 .email-box {
     display: flex;
     text-align: center;
-    background: lightgreen;
+    background: lightgrey;
+
+    height: 30px;
+    margin-top: 20px;
+    padding-right: 3px;
+    border-radius: 6px 15px 15px 6px;
 }
 
 .password-box {
     display: flex;
-    text-alight: center;
-    background: lightblue;
+    text-align: center;
+    background: lightgrey;
+    height: 30px;
+    margin-bottom: 10px;
+    padding-right: 3px;
+    border-radius: 6px 15px 15px 6px;
+}
+
+.login-button-box {
+    display: flex;
+}
+
+.login-button-box button {
+    background: darkblue;
+    color: lightgray;
+    text-decoration: none;
+    padding: 5px;
+    border: none;
+    border-radius: 6px;
+    width: 100px;
+}
+
+.bad-login-alert {
+    background: lightcoral;
+    color: crimson;
+    border-radius: 6px;
+    width: 100%;
 }
